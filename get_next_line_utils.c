@@ -6,11 +6,22 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:58:34 by olardeux          #+#    #+#             */
-/*   Updated: 2023/11/30 11:43:58 by olardeux         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:34:10 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != 0)
+		i++;
+	return (i);
+}
 
 char	*ft_strjoin(char *s1, char const *s2)
 {
@@ -29,10 +40,16 @@ char	*ft_strjoin(char *s1, char const *s2)
 			* sizeof(char));
 	if (!sjoin)
 		return (0);
-	while (s1[i++] != 0)
+	while (s1[i] != 0)
+	{
 		sjoin[i] = s1[i];
-	while (s2[i++ - ft_strlen(s1)] != 0)
+		i++;
+	}
+	while (s2[i - ft_strlen(s1)] != 0)
+	{
 		sjoin[i] = s2[i - ft_strlen(s1)];
+		i++;
+	}
 	sjoin[i] = '\0';
 	return (sjoin);
 }

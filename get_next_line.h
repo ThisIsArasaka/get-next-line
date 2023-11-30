@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:58:32 by olardeux          #+#    #+#             */
-/*   Updated: 2023/11/30 11:37:27 by olardeux         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:27:34 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,18 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
+#  define BUFFER_SIZE 5
 # endif
 
 # include <stdlib.h>
 # include <unistd.h>
 
 char	*get_next_line(int fd);
-void	*get_next_read(char *readed, int fd);
+char	*get_next_read(char *readed, int fd);
+char	*get_new_line(char *readed);
 int		nlinstr(char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*del_line(char *readed);
+char	*ft_strjoin(char *s1, char const *s2);
+size_t	ft_strlen(const char *s);
+
 #endif
