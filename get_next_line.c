@@ -40,7 +40,7 @@ char	*del_line(char *readed)
 		return (free(readed), NULL);
 	read_del = (char *)malloc((ft_strlen(readed) - i + 1) * sizeof(char));
 	if (!read_del)
-		return (NULL);
+		return (NULL); // rajoute peut etre un free sur readed ici
 	while (readed[i] != 0)
 	{
 		read_del[j] = readed[i];
