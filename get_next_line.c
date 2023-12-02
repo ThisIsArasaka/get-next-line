@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:58:30 by olardeux          #+#    #+#             */
-/*   Updated: 2023/12/02 11:59:17 by olardeux         ###   ########.fr       */
+/*   Updated: 2023/12/02 17:13:41 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ char	*del_line(char *readed)
 		i++;
 		j++;
 	}
+	read_del[j] = '\0';
 	free(readed);
 	return (read_del);
 }
@@ -79,12 +80,12 @@ char	*get_next_read(char *readed, int fd)
 	char	*BUFFER;
 	ssize_t	bytes;
 
-	bytes = 1;
 	BUFFER = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!BUFFER)
-		return (NULL);
+	bytes = 1;
 	while (!nlinstr(readed) && bytes != 0)
 	{
+		if (!BUFFER)
+			return (NULL);
 		bytes = read(fd, BUFFER, BUFFER_SIZE);
 		if (bytes == -1)
 			return (free(BUFFER), NULL);

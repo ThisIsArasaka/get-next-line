@@ -3,16 +3,16 @@
 #include <stdio.h>
 #include <sys/stat.h>
 
-int	main(int argc, char const *argv[])
+int	main(void)
 {
 	int		fd;
+	char *str;
 	//char	readd[1024];
 
 	fd = open("./test.txt", O_RDONLY);
+	str = get_next_line(fd);
 	//read(fd, readd, 1024);
 	//printf("%s\n %d \n %c", readd, (int)ft_strlen(readd), readd[71]);
-	printf("%s|\n", get_next_line(fd));
-	printf("%s|\n", get_next_line(fd));
-	printf("%s|\n", get_next_line(fd));
-	printf("%s|\n", get_next_line(fd));
+	printf("%s|\n", str);
+	free(str);
 }
