@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:58:34 by olardeux          #+#    #+#             */
-/*   Updated: 2023/12/02 11:16:07 by olardeux         ###   ########.fr       */
+/*   Updated: 2023/12/02 13:06:21 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 
 	if (!s1)
 	{
-		s1 = (char *)malloc(sizeof(char));
+		s1 = (char *)malloc(1 * sizeof(char));
 		s1[0] = '\0';
 	}
 	if (!s1 || !s2)
@@ -51,7 +51,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 		i++;
 	}
 	sjoin[i] = '\0';
-	return (sjoin);
+	return (free(s1), sjoin);
 }
 
 char	*get_last_line(char *readed)
@@ -70,18 +70,4 @@ char	*get_last_line(char *readed)
 	}
 	new_line[i] = '\0';
 	return (new_line);
-}
-
-int isEOF(int n)
-{
-	static int state;
-
-	
-	if (n == 1)
-		state = 1;
-	else if (state == 0 && n == 0)
-		state = 0;
-	else
-		state = 0;
-	return (state);
 }
