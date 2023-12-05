@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:58:34 by olardeux          #+#    #+#             */
-/*   Updated: 2023/12/02 17:13:32 by olardeux         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:34:31 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i] != 0)
 		i++;
 	return (i);
@@ -34,12 +36,12 @@ char	*ft_strjoin(char *s1, char const *s2)
 		s1[0] = '\0';
 	}
 	if (!s1 || !s2)
-		return (NULL);
+		return (free(s1), NULL);
 	i = 0;
 	sjoin = (char *)malloc(((ft_strlen(s1) + ft_strlen(s2)) + 1)
 			* sizeof(char));
 	if (!sjoin)
-		return (0);
+		return (free(sjoin), NULL);
 	while (s1[i] != 0)
 	{
 		sjoin[i] = s1[i];
@@ -62,7 +64,7 @@ char	*get_last_line(char *readed)
 	i = 0;
 	new_line = (char *)malloc((ft_strlen(readed) + 1) * sizeof(char));
 	if (!new_line)
-		return (NULL);
+		return (free(new_line), NULL);
 	while (readed[i] != 0)
 	{
 		new_line[i] = readed[i];

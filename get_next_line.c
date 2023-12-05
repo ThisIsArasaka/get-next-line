@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:58:30 by olardeux          #+#    #+#             */
-/*   Updated: 2023/12/02 17:13:41 by olardeux         ###   ########.fr       */
+/*   Updated: 2023/12/05 15:59:24 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*del_line(char *readed)
 		return (free(readed), NULL);
 	read_del = (char *)malloc((ft_strlen(readed) - i + 1) * sizeof(char));
 	if (!read_del)
-		return (NULL); // rajoute peut etre un free sur readed ici
+		return (free(readed), NULL); // rajoute peut etre un free sur readed ici
 	while (readed[i] != 0)
 	{
 		read_del[j] = readed[i];
@@ -61,7 +61,7 @@ char	*get_new_line(char *readed)
 	{
 		new_line = (char *)malloc((nlinstr(readed) + 1) * sizeof(char));
 		if (!new_line)
-			return (NULL);
+			return (free(new_line), NULL);
 		while (readed[i] != 0 && i < nlinstr(readed))
 		{
 			new_line[i] = readed[i];
@@ -84,13 +84,19 @@ char	*get_next_read(char *readed, int fd)
 	bytes = 1;
 	while (!nlinstr(readed) && bytes != 0)
 	{
-		if (!BUFFER)
-			return (NULL);
-		bytes = read(fd, BUFFER, BUFFER_SIZE);
-		if (bytes == -1)
+		if (!BUFFER || bytes == -1)
 			return (free(BUFFER), NULL);
-		BUFFER[BUFFER_SIZE] = '\0';
-		readed = ft_strjoin(readed, BUFFER);
+		bytes = read(fd, BUFFER, BUFFER_SIZE);
+		if (bytes == BUFFER_SIZE)
+		{
+			BUFFER[BUFFER_SIZE] = '\0';
+			readed = ft_strjoin(readed, BUFFER);
+		}
+		else if (bytes > 0)
+		{
+			BUFFER[bytes] = '\0';
+			readed = ft_strjoin(readed, BUFFER);
+		}
 	}
 	if (!readed)
 		return (free(BUFFER), NULL);
@@ -103,12 +109,14 @@ char	*get_next_line(int fd)
 	static char *readed;
 	char *nl;
 
-	if (fd <= 0)
+	if (fd <= 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	readed = get_next_read(readed, fd);
 	if (!readed)
 		return(NULL);
 	nl = get_new_line(readed);
+	if (!nl)
+		return (free(nl), NULL);
 	readed = del_line(readed);
 	return (nl);
 }
