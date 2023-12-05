@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:58:30 by olardeux          #+#    #+#             */
-/*   Updated: 2023/12/05 15:59:24 by olardeux         ###   ########.fr       */
+/*   Updated: 2023/12/05 19:04:52 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,11 @@ char	*get_next_line(int fd)
 	static char *readed;
 	char *nl;
 
-	if (fd <= 0 || BUFFER_SIZE < 1)
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
 	readed = get_next_read(readed, fd);
-	if (!readed)
-		return(NULL);
+	if (!readed || !readed[0])
+		return(free(readed), NULL);
 	nl = get_new_line(readed);
 	if (!nl)
 		return (free(nl), NULL);

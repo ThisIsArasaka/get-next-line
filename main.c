@@ -14,6 +14,7 @@ int	main(void)
 	//read(fd, readd, 1024);
 	//printf("%s\n %d \n %c", readd, (int)ft_strlen(readd), readd[71]);
 	printf("%s|\n", str);
+	free(str);
 	str = get_next_line(fd);
 	printf("%s|\n", str);
 	free(str);
