@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 14:58:30 by olardeux          #+#    #+#             */
-/*   Updated: 2023/12/05 19:04:52 by olardeux         ###   ########.fr       */
+/*   Updated: 2023/12/06 10:34:31 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	nlinstr(char *s)
 	}
 	return (0);
 }
+
 char	*del_line(char *readed)
 {
 	int		i;
@@ -40,7 +41,7 @@ char	*del_line(char *readed)
 		return (free(readed), NULL);
 	read_del = (char *)malloc((ft_strlen(readed) - i + 1) * sizeof(char));
 	if (!read_del)
-		return (free(readed), NULL); // rajoute peut etre un free sur readed ici
+		return (free(readed), NULL);
 	while (readed[i] != 0)
 	{
 		read_del[j] = readed[i];
@@ -51,6 +52,7 @@ char	*del_line(char *readed)
 	free(readed);
 	return (read_del);
 }
+
 char	*get_new_line(char *readed)
 {
 	int		i;
@@ -69,51 +71,50 @@ char	*get_new_line(char *readed)
 		}
 	}
 	else
-		return(get_last_line(readed));
+		return (get_last_line(readed));
 	new_line[i] = '\0';
 	return (new_line);
-		
 }
 
-char	*get_next_read(char *readed, int fd)
+char	*ft_get_next_read(char *readed, int fd)
 {
-	char	*BUFFER;
+	char	*buffer;
 	ssize_t	bytes;
 
-	BUFFER = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	bytes = 1;
 	while (!nlinstr(readed) && bytes != 0)
 	{
-		if (!BUFFER || bytes == -1)
-			return (free(BUFFER), NULL);
-		bytes = read(fd, BUFFER, BUFFER_SIZE);
+		if (!buffer || bytes == -1)
+			return (free(buffer), NULL);
+		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes == BUFFER_SIZE)
 		{
-			BUFFER[BUFFER_SIZE] = '\0';
-			readed = ft_strjoin(readed, BUFFER);
+			buffer[BUFFER_SIZE] = '\0';
+			readed = ft_strjoin(readed, buffer);
 		}
 		else if (bytes > 0)
 		{
-			BUFFER[bytes] = '\0';
-			readed = ft_strjoin(readed, BUFFER);
+			buffer[bytes] = '\0';
+			readed = ft_strjoin(readed, buffer);
 		}
 	}
 	if (!readed)
-		return (free(BUFFER), NULL);
-	free(BUFFER);
+		return (free(buffer), NULL);
+	free(buffer);
 	return (readed);
 }
 
 char	*get_next_line(int fd)
 {
-	static char *readed;
-	char *nl;
+	static char	*readed;
+	char		*nl;
 
 	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	readed = get_next_read(readed, fd);
+	readed = ft_get_next_read(readed, fd);
 	if (!readed || !readed[0])
-		return(free(readed), NULL);
+		return (free(readed), NULL);
 	nl = get_new_line(readed);
 	if (!nl)
 		return (free(nl), NULL);
